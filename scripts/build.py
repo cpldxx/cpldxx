@@ -40,9 +40,6 @@ query($login: String!) {
     createdAt
     followers { totalCount }
     contributionsCollection {
-      totalCommitContributions
-      totalPullRequestContributions
-      totalIssueContributions
       contributionCalendar {
         totalContributions
         weeks { contributionDays { date contributionCount weekday } }
@@ -50,7 +47,6 @@ query($login: String!) {
     }
     repositories(first: 100, ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC,
                  orderBy: {field: PUSHED_AT, direction: DESC}) {
-      totalCount
       nodes {
         name description url stargazerCount
         primaryLanguage { name }
@@ -128,6 +124,10 @@ def languages(repos: list[dict]) -> list[tuple[str, float]]:
     return [(name, size / total) for name, size in sizes.most_common(5)]
 
 
+def projects(user: dict) -> list[dict]:
+    return [r for r in user["repositories"]["nodes"] if r["name"] != PROFILE["login"]]
+
+
 def text(x, y, s, size=12, fill=TEXT, weight=400, anchor="start", cls=""):
     c = f' class="{cls}"' if cls else ""
     return (f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" font-weight="{weight}" '
@@ -142,7 +142,8 @@ def render(user: dict, portrait: list[str]) -> str:
     lvl = levels(days)
     current, longest = streaks(days)
     months = monthly(days)
-    langs = languages(user["repositories"]["nodes"])
+    repos = projects(user)
+    langs = languages(repos)
     today = datetime.now(timezone.utc).date()
     since = user["createdAt"][:7]
 
@@ -226,11 +227,14 @@ def render(user: dict, portrait: list[str]) -> str:
     o.append(text(lx2, 62, "more", 10, DIM, anchor="end"))
 
     # stat tiles
+    # Derived from the calendar, which counts private work too; the
+    # commit/PR totals would only see public repos with the Actions token.
+    best = max(days, key=lambda d: d["contributionCount"])
     stats = [
-        ("commits", cc["totalCommitContributions"]),
-        ("pull requests", cc["totalPullRequestContributions"]),
-        ("issues", cc["totalIssueContributions"]),
-        ("public repos", user["repositories"]["totalCount"]),
+        ("active days", sum(1 for d in days if d["contributionCount"])),
+        ("best day", best["contributionCount"]),
+        ("this month", list(months.values())[-1]),
+        ("public repos", len(repos)),
         ("current streak", f"{current}d"),
         ("longest streak", f"{longest}d"),
     ]
@@ -300,7 +304,7 @@ def main() -> None:
     (ROOT / "dashboard.svg").write_text(render(user, portrait))
 
     readme = ROOT / "README.md"
-    block = readme_projects(user["repositories"]["nodes"])
+    block = readme_projects(projects(user))
     readme.write_text(re.sub(
         r"(<!-- projects:start -->).*?(<!-- projects:end -->)",
         lambda m: f"{m.group(1)}\n{block}\n{m.group(2)}",
