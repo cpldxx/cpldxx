@@ -1,7 +1,8 @@
 """Build the profile's SVG cards and README.md from live GitHub data.
 
-Writes assets/hero.svg, assets/stats.svg and one assets/project-<name>.svg
-per pinned project, then rewrites the project block in README.md.
+Writes hero, stats and one card per pinned project into assets/, each in a
+dark and a light version, plus docs/data.json for the interactive page, then
+regenerates README.md.
 Standard library only, so the daily workflow needs no installs.
 
     GITHUB_TOKEN=... python scripts/build.py
@@ -10,7 +11,6 @@ Standard library only, so the daily workflow needs no installs.
 
 import json
 import os
-import re
 import subprocess
 import textwrap
 import urllib.request
@@ -34,11 +34,30 @@ SKIP_LANGUAGES = {"HTML", "CSS", "Dockerfile", "PLpgSQL", "Makefile"}
 PINNED_COUNT = 4
 
 W = 880
-PAD = 44
-BG, LINE = "#0a0a0a", "#222222"
-TEXT, MUTED, DIM = "#fafafa", "#a1a1a1", "#5c5c5c"
-RAMP = ["#161616", "#2e2e2e", "#545454", "#9a9a9a", "#f2f2f2"]
-LANG_SHADES = ["#f2f2f2", "#a1a1a1", "#6b6b6b", "#454545", "#2e2e2e"]
+PAD = 2
+# Cards have no background of their own, so each is drawn twice and the
+# README picks the one matching the viewer's GitHub theme. Neutral greys
+# taken from GitHub's own palette so the cards sit flush on the page.
+THEMES = {
+    "dark": dict(LINE="#30363d", TEXT="#f0f6fc", MUTED="#9198a1", DIM="#656c76",
+                 RAMP=["#21262d", "#3d444d", "#656c76", "#9198a1", "#f0f6fc"],
+                 LANG_SHADES=["#f0f6fc", "#9198a1", "#656c76", "#3d444d"],
+                 BAR="#3d444d", TRACK="#21262d", SECOND="#656c76"),
+    "light": dict(LINE="#d1d9e0", TEXT="#1f2328", MUTED="#59636e", DIM="#818b98",
+                  RAMP=["#eff2f5", "#d1d9e0", "#a3acb6", "#59636e", "#1f2328"],
+                  LANG_SHADES=["#1f2328", "#59636e", "#818b98", "#d1d9e0"],
+                  BAR="#d1d9e0", TRACK="#eff2f5", SECOND="#818b98"),
+}
+LINE = TEXT = MUTED = DIM = BAR = TRACK = SECOND = ""
+RAMP: list[str] = []
+LANG_SHADES: list[str] = []
+
+
+def use_theme(name: str) -> None:
+    globals().update(THEMES[name])
+
+
+use_theme("dark")
 SANS = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif"
 MONO = "ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace"
 MONO_CHAR = 0.6  # monospace advance as a fraction of font size
@@ -177,13 +196,13 @@ def label(x, y, s, fill=MUTED, anchor="start"):
     return text(x, y, s, 12, fill, MONO, anchor=anchor)
 
 
-def card(w: int, h: int, title: str) -> list[str]:
+def card(w: int, h: int, title: str, top: int = 0) -> list[str]:
+    """Open an SVG with a transparent background; `top` trims empty space above the content."""
     return [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h - top}" viewBox="0 {top} {w} {h - top}" '
         f'role="img" aria-labelledby="t">',
         f'<title id="t">{escape(title)}</title>',
         STYLE,
-        f'<rect x=".5" y=".5" width="{w - 1}" height="{h - 1}" rx="14" fill="{BG}" stroke="{LINE}"/>',
     ]
 
 
@@ -206,8 +225,8 @@ def render_hero(user: dict, repos: list[dict]) -> str:
     step = (W - 2 * PAD) / len(weeks)
     gb = gy + 7 * step
     sy = gb + 52
-    h = round(sy + 116)
-    o = card(W, h, f'{PROFILE["name"]}: {PROFILE["tagline"]}')
+    h = round(sy + 96)
+    o = card(W, h, f'{PROFILE["name"]}: {PROFILE["tagline"]}', top=40)
     o.append(fade(0, label(PAD, 62, f'@{PROFILE["login"]}')))
     o.append(fade(80, text(PAD, 128, PROFILE["name"], 64, TEXT, SANS, 600, extra=' letter-spacing="-2"')))
     o.append(fade(160, text(PAD, 166, PROFILE["tagline"], 19, MUTED)))
@@ -257,7 +276,7 @@ def render_stats(user: dict, repos: list[dict]) -> str:
     langs = language_shares(repos)
 
     h = 300
-    o = card(W, h, f'{PROFILE["name"]}: monthly activity and languages')
+    o = card(W, h, f'{PROFILE["name"]}: monthly activity and languages', top=30)
 
     # monthly bars
     lw = 452
@@ -270,7 +289,7 @@ def render_stats(user: dict, repos: list[dict]) -> str:
         bh = max(3, (base - top) * v / peak)
         x = PAD + i * slot + 5
         bw = slot - 10
-        fill = TEXT if v == peak else "#3a3a3a"
+        fill = TEXT if v == peak else BAR
         o.append(f'<rect class="grow" style="animation-delay:{150 + i * 40}ms" x="{x:.1f}" y="{base - bh:.1f}" '
                  f'width="{bw:.1f}" height="{bh:.1f}" rx="3" fill="{fill}"><title>{m}: {v}</title></rect>')
         if v == peak:
@@ -290,9 +309,9 @@ def render_stats(user: dict, repos: list[dict]) -> str:
         y = 96 + i * 30
         o.append(text(rx, y, name, 13.5, TEXT if i == 0 else MUTED))
         o.append(label(rx + rw, y, f"{share * 100:.1f}%", DIM, "end"))
-        o.append(f'<rect x="{rx}" y="{y + 8}" width="{rw}" height="3" rx="1.5" fill="#1c1c1c"/>')
+        o.append(f'<rect x="{rx}" y="{y + 8}" width="{rw}" height="3" rx="1.5" fill="{TRACK}"/>')
         o.append(f'<rect class="growx" style="animation-delay:{300 + i * 80}ms" x="{rx}" y="{y + 8}" '
-                 f'width="{max(rw * share, 3):.1f}" height="3" rx="1.5" fill="{TEXT if i == 0 else "#6b6b6b"}"/>')
+                 f'width="{max(rw * share, 3):.1f}" height="3" rx="1.5" fill="{TEXT if i == 0 else SECOND}"/>')
 
     o.append(f'<line x1="{PAD}" y1="{h - 52}" x2="{W - PAD}" y2="{h - 52}" stroke="{LINE}"/>')
     o.append(label(PAD, h - 24, f'best day {best["contributionCount"]} · {date.fromisoformat(best["date"]).strftime("%b %-d")}'
@@ -304,31 +323,32 @@ def render_stats(user: dict, repos: list[dict]) -> str:
 # ---------------------------------------------------------------- project cards
 
 def render_card(repo: dict) -> str:
-    w, h = 430, 176
+    w, h, x0 = 430, 158, 6
     o = card(w, h, f'{repo["name"]}: {repo["description"]}')
+    o.append(f'<line x1="{x0}" y1="1" x2="{w - x0}" y2="1" stroke="{LINE}"/>')
     lang = repo["primaryLanguage"]["name"] if repo["primaryLanguage"] else ""
-    o.append(text(24, 46, repo["name"], 18, TEXT, SANS, 600, extra=' letter-spacing="-.3"'))
-    o.append(label(w - 24, 46, lang, MUTED, "end"))
+    o.append(text(x0, 34, repo["name"], 18, TEXT, SANS, 600, extra=' letter-spacing="-.3"'))
+    o.append(label(w - x0, 34, lang, MUTED, "end"))
 
-    lines = textwrap.wrap(repo["description"], 54)
+    lines = textwrap.wrap(repo["description"], 56)
     if len(lines) > 3:
         lines = lines[:3]
-        lines[-1] = lines[-1][:51].rstrip(" ,.") + "…"
+        lines[-1] = lines[-1][:53].rstrip(" ,.") + "…"
     for i, line in enumerate(lines):
-        o.append(text(24, 76 + i * 20, line, 13.5, MUTED))
+        o.append(text(x0, 62 + i * 20, line, 13.5, MUTED))
 
     langs = language_shares([repo], top=4)
-    by = h - 34
-    x, bw = 24, w - 48
+    by = h - 30
+    x, bw = x0, w - 2 * x0
     for i, (name, share) in enumerate(langs):
         sw = bw * share
         o.append(f'<rect class="growx" style="animation-delay:{200 + i * 80}ms" x="{x:.1f}" y="{by}" '
                  f'width="{max(sw - 2, 2):.1f}" height="3" rx="1.5" fill="{LANG_SHADES[i]}"/>')
         x += sw
     split = " · ".join(f"{n} {s * 100:.0f}%" for n, s in langs[:2])
-    o.append(label(24, by + 20, split, DIM))
+    o.append(label(x0, by + 20, split, DIM))
     pushed = date.fromisoformat(repo["pushedAt"][:10]).strftime("%b %-d")
-    o.append(label(w - 24, by + 20, f"updated {pushed}", DIM, "end"))
+    o.append(label(w - x0, by + 20, f"updated {pushed}", DIM, "end"))
     o.append("</svg>")
     return "\n".join(o) + "\n"
 
@@ -363,10 +383,35 @@ def site_data(user: dict, repos: list[dict], pinned: list[dict]) -> dict:
     }
 
 
-def readme_projects(repos: list[dict]) -> str:
-    links = [f'<a href="{r["url"]}"><img src="./assets/project-{r["name"]}.svg" width="49%" '
-             f'alt="{escape(r["name"])}: {escape(r["description"])}"></a>' for r in repos]
-    return '<p align="center">\n' + "\n".join(links) + "\n</p>"
+SITE_URL = f'https://{PROFILE["login"]}.github.io/{PROFILE["login"]}/'
+
+
+def picture(name: str, alt: str, width: str = "100%") -> str:
+    """An <img> that switches with the viewer's GitHub theme."""
+    src = f"./assets/{name}"
+    return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="{src}-dark.svg">'
+            f'<source media="(prefers-color-scheme: light)" srcset="{src}-light.svg">'
+            f'<img src="{src}-dark.svg" width="{width}" alt="{escape(alt)}"></picture>')
+
+
+def readme(pinned: list[dict]) -> str:
+    cards = "\n".join(
+        f'<a href="{r["url"]}">{picture("project-" + r["name"], r["name"] + ": " + r["description"], "49%")}</a>'
+        for r in pinned)
+    return f"""<p align="center">
+<a href="{SITE_URL}">{picture("hero", PROFILE["name"] + ". " + PROFILE["tagline"] + " Contribution graph and stats.")}</a>
+</p>
+
+<p align="center">
+{picture("stats", "Monthly activity and languages")}
+</p>
+
+<p align="center">
+{cards}
+</p>
+
+<p align="center"><a href="{SITE_URL}"><b>Open the interactive version ↗</b></a><br><sub>redrawn every night from the GitHub API · <a href="./scripts/build.py">how it's built</a></sub></p>
+"""
 
 
 def main() -> None:
@@ -376,24 +421,20 @@ def main() -> None:
     pinned = [r for r in repos if r["description"]][:PINNED_COUNT]
 
     ASSETS.mkdir(exist_ok=True)
-    for old in ASSETS.glob("project-*.svg"):
+    for old in ASSETS.glob("*.svg"):
         old.unlink()
-    (ASSETS / "hero.svg").write_text(render_hero(user, repos))
-    (ASSETS / "stats.svg").write_text(render_stats(user, repos))
-    for r in pinned:
-        (ASSETS / f'project-{r["name"]}.svg').write_text(render_card(r))
+    for theme in THEMES:
+        use_theme(theme)
+        (ASSETS / f"hero-{theme}.svg").write_text(render_hero(user, repos))
+        (ASSETS / f"stats-{theme}.svg").write_text(render_stats(user, repos))
+        for r in pinned:
+            (ASSETS / f'project-{r["name"]}-{theme}.svg').write_text(render_card(r))
 
     SITE.mkdir(exist_ok=True)
     (SITE / "data.json").write_text(json.dumps(site_data(user, repos, pinned), separators=(",", ":")) + "\n")
 
-    readme = ROOT / "README.md"
-    readme.write_text(re.sub(
-        r"(<!-- projects:start -->).*?(<!-- projects:end -->)",
-        lambda m: f"{m.group(1)}\n{readme_projects(pinned)}\n{m.group(2)}",
-        readme.read_text(),
-        flags=re.S,
-    ))
-    print(f"built hero, stats and {len(pinned)} project cards")
+    (ROOT / "README.md").write_text(readme(pinned))
+    print(f"built hero, stats and {len(pinned)} project cards in {len(THEMES)} themes")
 
 
 if __name__ == "__main__":

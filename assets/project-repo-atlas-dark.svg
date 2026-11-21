@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="158" viewBox="0 0 430 158" role="img" aria-labelledby="t">
+<title id="t">repo-atlas: Read a GitHub repo once and explore it as five layers, a mind map and answers from the code. Runs on your machine.</title>
+<style>
+.in{animation:in .7s cubic-bezier(.2,.8,.2,1) both}
+.cell{animation:cell .5s ease-out both}
+.grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .8s cubic-bezier(.2,.8,.2,1) both}
+.growx{transform-box:fill-box;transform-origin:0 50%;animation:growx .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+@keyframes cell{from{opacity:0}}
+@keyframes grow{from{transform:scaleY(0)}}
+@keyframes growx{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<line x1="6" y1="1" x2="424" y2="1" stroke="#30363d"/>
+<text x="6.0" y="34.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="#f0f6fc" font-weight="600" text-anchor="start" letter-spacing="-.3">repo-atlas</text>
+<text x="424.0" y="34.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#9198a1" font-weight="400" text-anchor="end">Python</text>
+<text x="6.0" y="62.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">Read a GitHub repo once and explore it as five layers, a</text>
+<text x="6.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">mind map and answers from the code. Runs on your</text>
+<text x="6.0" y="102.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">machine.</text>
+<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="217.0" height="3" rx="1.5" fill="#f0f6fc"/>
+<rect class="growx" style="animation-delay:280ms" x="225.0" y="128" width="197.0" height="3" rx="1.5" fill="#9198a1"/>
+<text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Python 52% · JavaScript 48%</text>
+<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 20</text>
+</svg>

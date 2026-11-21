@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="158" viewBox="0 0 430 158" role="img" aria-labelledby="t">
+<title id="t">the-sovereign: A research lab that never stops: give it a topic, it researches every night, keeps each fact with its source in a knowledge graph, and proves what it learned on an exam. Self-hosted, on local models or Claude.</title>
+<style>
+.in{animation:in .7s cubic-bezier(.2,.8,.2,1) both}
+.cell{animation:cell .5s ease-out both}
+.grow{transform-box:fill-box;transform-origin:50% 100%;animation:grow .8s cubic-bezier(.2,.8,.2,1) both}
+.growx{transform-box:fill-box;transform-origin:0 50%;animation:growx .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+@keyframes cell{from{opacity:0}}
+@keyframes grow{from{transform:scaleY(0)}}
+@keyframes growx{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<line x1="6" y1="1" x2="424" y2="1" stroke="#30363d"/>
+<text x="6.0" y="34.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="18" fill="#f0f6fc" font-weight="600" text-anchor="start" letter-spacing="-.3">the-sovereign</text>
+<text x="424.0" y="34.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#9198a1" font-weight="400" text-anchor="end">Python</text>
+<text x="6.0" y="62.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">A research lab that never stops: give it a topic, it</text>
+<text x="6.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">researches every night, keeps each fact with its source</text>
+<text x="6.0" y="102.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">in a knowledge graph, and proves what it learned on a…</text>
+<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="293.9" height="3" rx="1.5" fill="#f0f6fc"/>
+<rect class="growx" style="animation-delay:280ms" x="301.9" y="128" width="112.0" height="3" rx="1.5" fill="#9198a1"/>
+<rect class="growx" style="animation-delay:360ms" x="416.0" y="128" width="6.0" height="3" rx="1.5" fill="#656c76"/>
+<text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Python 71% · TypeScript 27%</text>
+<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 20</text>
+</svg>
