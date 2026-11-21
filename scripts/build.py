@@ -21,6 +21,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "assets"
+HISTORY = ROOT / "data" / "contributions.json"
 
 PROFILE = {
     "login": "cpldxx",
@@ -138,6 +139,26 @@ def language_shares(repos: list[dict], top: int = 5) -> list[tuple[str, float]]:
                 sizes[e["node"]["name"]] += e["size"]
     total = sum(sizes.values()) or 1
     return [(name, size / total) for name, size in sizes.most_common(top) if size / total >= 0.01]
+
+
+def keep_history(user: dict) -> None:
+    """Never let a day's count go down.
+
+    Every run's daily counts are merged into data/contributions.json, keeping
+    the highest count seen for each date, and the calendar is drawn from that
+    record. Work in private repos stays on the dashboard even if GitHub stops
+    counting it later, for example after leaving the organization.
+    """
+    saved = json.loads(HISTORY.read_text()) if HISTORY.exists() else {}
+    cal = user["contributionsCollection"]["contributionCalendar"]
+    for wk in cal["weeks"]:
+        for d in wk["contributionDays"]:
+            d["contributionCount"] = max(d["contributionCount"], saved.get(d["date"], 0))
+            if d["contributionCount"]:
+                saved[d["date"]] = d["contributionCount"]
+    cal["totalContributions"] = sum(d["contributionCount"] for wk in cal["weeks"] for d in wk["contributionDays"])
+    HISTORY.parent.mkdir(exist_ok=True)
+    HISTORY.write_text(json.dumps(dict(sorted(saved.items())), indent=0) + "\n")
 
 
 def projects(user: dict) -> list[dict]:
@@ -319,6 +340,7 @@ def readme_projects(repos: list[dict]) -> str:
 
 def main() -> None:
     user = fetch(PROFILE["login"])
+    keep_history(user)
     repos = projects(user)
     pinned = [r for r in repos if r["description"]][:PINNED_COUNT]
 
