@@ -36,7 +36,7 @@
 <text x="359.8" y="228.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#818b98" font-weight="400" text-anchor="middle">S</text>
 <rect class="grow" style="animation-delay:550ms" x="383.7" y="133.4" width="27.7" height="72.6" rx="3" fill="#d1d9e0"><title>2026-10: 79</title></rect>
 <text x="397.5" y="228.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#818b98" font-weight="400" text-anchor="middle">O</text>
-<rect class="grow" style="animation-delay:590ms" x="421.3" y="155.4" width="27.7" height="50.6" rx="3" fill="#d1d9e0"><title>2026-11: 55</title></rect>
+<rect class="grow" style="animation-delay:590ms" x="421.3" y="154.5" width="27.7" height="51.5" rx="3" fill="#d1d9e0"><title>2026-11: 56</title></rect>
 <text x="435.2" y="228.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#818b98" font-weight="400" text-anchor="middle">N</text>
 <line x1="2" y1="206.5" x2="454" y2="206.5" stroke="#d1d9e0"/>
 <line x1="494" y1="44" x2="494" y2="224" stroke="#d1d9e0"/>
@@ -58,5 +58,5 @@
 <rect x="534" y="194" width="344" height="3" rx="1.5" fill="#eff2f5"/>
 <rect class="growx" style="animation-delay:540ms" x="534" y="194" width="22.2" height="3" rx="1.5" fill="#818b98"/>
 <line x1="2" y1="248" x2="878" y2="248" stroke="#d1d9e0"/>
-<text x="2.0" y="276.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#818b98" font-weight="400" text-anchor="start">best day 28 · Nov 20   ·   current streak 1d</text>
+<text x="2.0" y="276.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#818b98" font-weight="400" text-anchor="start">best day 28 · Nov 20   ·   current streak 2d</text>
 </svg>
