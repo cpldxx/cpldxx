@@ -26,10 +26,10 @@
 <text x="440.0" y="21.5" font-size="12" fill="#8b949e" font-weight="400" text-anchor="middle">cpldxx@github: ~ $ neofetch</text>
 <text x="32.0" y="70.0" font-size="16" fill="#39d353" font-weight="700" text-anchor="start" filter="url(#glow)">sangwon@cpldxx</text>
 <text x="32.0" y="88.0" font-size="13" fill="#484f58" font-weight="400" text-anchor="start">──────────────────────</text>
-<g class="fade" style="animation-delay:150ms"><text x="32.0" y="114.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">contributions</text><text x="169.7" y="114.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">571 this year</text></g>
-<g class="fade" style="animation-delay:240ms"><text x="32.0" y="137.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">active days</text><text x="169.7" y="137.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">147 / 370</text></g>
+<g class="fade" style="animation-delay:150ms"><text x="32.0" y="114.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">contributions</text><text x="169.7" y="114.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">572 this year</text></g>
+<g class="fade" style="animation-delay:240ms"><text x="32.0" y="137.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">active days</text><text x="169.7" y="137.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">150 / 371</text></g>
 <g class="fade" style="animation-delay:330ms"><text x="32.0" y="160.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">best day</text><text x="169.7" y="160.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">24 on Nov 20</text></g>
-<g class="fade" style="animation-delay:420ms"><text x="32.0" y="183.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">streak</text><text x="169.7" y="183.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">1d now · 8d best</text></g>
+<g class="fade" style="animation-delay:420ms"><text x="32.0" y="183.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">streak</text><text x="169.7" y="183.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">2d now · 8d best</text></g>
 <g class="fade" style="animation-delay:510ms"><text x="32.0" y="206.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">languages</text><text x="169.7" y="206.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">Python, TypeScript, Swift</text></g>
 <g class="fade" style="animation-delay:600ms"><text x="32.0" y="229.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">public repos</text><text x="169.7" y="229.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">5</text></g>
 <g class="fade" style="animation-delay:690ms"><text x="32.0" y="252.0" font-size="13.5" fill="#39d353" font-weight="700" text-anchor="start">on github since</text><text x="169.7" y="252.0" font-size="13.5" fill="#e6edf3" font-weight="400" text-anchor="start">Nov 2022</text></g>
@@ -62,11 +62,11 @@
 <text x="713.0" y="216.0" font-size="10.5" fill="#484f58" font-weight="400" text-anchor="middle">J</text>
 <rect class="grow" style="animation-delay:610ms" x="732.0" y="139.0" width="22.0" height="61.0" rx="3" fill="url(#bar)"><title>2026-08: 70</title></rect>
 <text x="743.0" y="216.0" font-size="10.5" fill="#484f58" font-weight="400" text-anchor="middle">A</text>
-<rect class="grow" style="animation-delay:655ms" x="762.0" y="192.2" width="22.0" height="7.8" rx="3" fill="url(#bar)"><title>2026-09: 9</title></rect>
+<rect class="grow" style="animation-delay:655ms" x="762.0" y="193.0" width="22.0" height="7.0" rx="3" fill="url(#bar)"><title>2026-09: 8</title></rect>
 <text x="773.0" y="216.0" font-size="10.5" fill="#484f58" font-weight="400" text-anchor="middle">S</text>
-<rect class="grow" style="animation-delay:700ms" x="792.0" y="132.1" width="22.0" height="67.9" rx="3" fill="url(#bar)"><title>2026-10: 78</title></rect>
+<rect class="grow" style="animation-delay:700ms" x="792.0" y="131.2" width="22.0" height="68.8" rx="3" fill="url(#bar)"><title>2026-10: 79</title></rect>
 <text x="803.0" y="216.0" font-size="10.5" fill="#484f58" font-weight="400" text-anchor="middle">O</text>
-<rect class="grow" style="animation-delay:745ms" x="822.0" y="155.6" width="22.0" height="44.4" rx="3" fill="url(#bar)"><title>2026-11: 51</title></rect>
+<rect class="grow" style="animation-delay:745ms" x="822.0" y="154.7" width="22.0" height="45.3" rx="3" fill="url(#bar)"><title>2026-11: 52</title></rect>
 <text x="833.0" y="216.0" font-size="10.5" fill="#484f58" font-weight="400" text-anchor="middle">N</text>
 <line x1="488" y1="200.5" x2="848" y2="200.5" stroke="#30363d"/>
 <text x="488.0" y="248.0" font-size="13" fill="#e6edf3" font-weight="700" text-anchor="start">languages</text>
