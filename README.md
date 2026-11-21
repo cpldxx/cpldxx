@@ -1,16 +1,18 @@
 <p align="center">
-  <img src="./dashboard.svg" alt="cpldxx's GitHub dashboard: contribution heatmap, stats, monthly activity and languages" width="100%">
+  <img src="./assets/hero.svg" width="100%" alt="Sangwon Ji: my name drawn over a year of GitHub contributions. I build AI tools that run on your own machine.">
 </p>
 
-### `~/projects`
+<p align="center">
+  <img src="./assets/stats.svg" width="100%" alt="GitHub stats: contributions, streaks, monthly activity and languages">
+</p>
 
 <!-- projects:start -->
-| project | what it does |
-| --- | --- |
-| [**repo-atlas**](https://github.com/cpldxx/repo-atlas)<br><sub>Python</sub> | Read a GitHub repo once and explore it as five layers, a mind map and answers from the code. Runs on your machine. |
-| [**studynotch**](https://github.com/cpldxx/studynotch)<br><sub>Swift</sub> | A study helper that lives in your Mac's notch. Right-click a sentence and the AI you already use answers from your course's PDFs. |
-| [**the-sovereign**](https://github.com/cpldxx/the-sovereign)<br><sub>Python</sub> | A research lab that never stops: give it a topic, it researches every night, keeps each fact with its source in a knowledge graph, and proves what it learned on an exam. Self-hosted, on local models or Claude. |
-| [**catchbunny**](https://github.com/cpldxx/catchbunny)<br><sub>Python</sub> | Browser testers that prove a bug before they report it. An MCP server for coding agents. |
+<p align="center">
+<a href="https://github.com/cpldxx/repo-atlas"><img src="./assets/project-repo-atlas.svg" width="49%" alt="repo-atlas: Read a GitHub repo once and explore it as five layers, a mind map and answers from the code. Runs on your machine."></a>
+<a href="https://github.com/cpldxx/studynotch"><img src="./assets/project-studynotch.svg" width="49%" alt="studynotch: A study helper that lives in your Mac's notch. Right-click a sentence and the AI you already use answers from your course's PDFs."></a>
+<a href="https://github.com/cpldxx/the-sovereign"><img src="./assets/project-the-sovereign.svg" width="49%" alt="the-sovereign: A research lab that never stops: give it a topic, it researches every night, keeps each fact with its source in a knowledge graph, and proves what it learned on an exam. Self-hosted, on local models or Claude."></a>
+<a href="https://github.com/cpldxx/catchbunny"><img src="./assets/project-catchbunny.svg" width="49%" alt="catchbunny: Browser testers that prove a bug before they report it. An MCP server for coding agents."></a>
+</p>
 <!-- projects:end -->
 
-<sub>The dashboard above redraws itself every day from GitHub's API · [how it's built](./scripts/build.py)</sub>
+<p align="center"><sub>redrawn every night from the GitHub API · <a href="./scripts/build.py">how it's built</a></sub></p>
