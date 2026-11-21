@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<script>document.documentElement.classList.add("js")</script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sangwon Ji</title>
+<meta name="description" content="Sangwon Ji builds AI tools that run on your own machine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a; --line: #222; --line-strong: #3a3a3a;
+  --text: #fafafa; --muted: #a1a1a1; --dim: #5c5c5c;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); color-scheme: dark; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(600px circle at var(--mx, -999px) var(--my, -999px), rgba(255,255,255,.045), transparent 70%);
+}
+main { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 72px 24px 64px; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0; }
+.muted { color: var(--muted); } .dim { color: var(--dim); }
+
+header { display: flex; justify-content: space-between; align-items: center; }
+header a { border-bottom: 1px solid transparent; transition: border-color .2s, color .2s; }
+header a:hover { color: var(--text); border-color: var(--line-strong); }
+
+h1 { font-size: clamp(48px, 9vw, 76px); font-weight: 600; letter-spacing: -.045em; line-height: 1; margin: 28px 0 18px; }
+.tagline { font-size: 20px; color: var(--muted); margin: 0 0 14px; letter-spacing: -.01em; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--dim); }
+
+.panel { border: 1px solid var(--line); border-radius: 16px; padding: 28px; margin-top: 40px; position: relative; }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; gap: 16px; }
+.panel-head h2 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -.01em; }
+
+/* contribution graph */
+.graph-scroll { overflow-x: auto; scrollbar-width: none; margin: 0 -4px; padding: 6px 4px; }
+.graph-scroll::-webkit-scrollbar { display: none; }
+.graph { position: relative; display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column;
+  grid-auto-columns: 1fr; gap: 3px; min-width: 620px; touch-action: pan-x; }
+.cell {
+  --p: 0; aspect-ratio: 1; border-radius: 3px; background: var(--c);
+  transform: scale(calc(1 + var(--p) * .45));
+  filter: brightness(calc(1 + var(--p) * 1.6));
+  transition: transform .18s var(--ease), filter .18s var(--ease);
+  will-change: transform;
+}
+.cell[data-l="0"] { box-shadow: inset 0 0 0 1px rgba(255,255,255, calc(var(--p) * .35)); }
+.tip {
+  position: absolute; z-index: 5; pointer-events: none; white-space: nowrap;
+  background: #fafafa; color: #0a0a0a; border-radius: 6px; padding: 5px 9px;
+  font: 500 12px/1.2 var(--mono); transform: translate(-50%, calc(-100% - 10px));
+  opacity: 0; transition: opacity .12s;
+}
+.tip.on { opacity: 1; }
+.graph-foot { display: flex; justify-content: space-between; margin-top: 14px; gap: 12px; flex-wrap: wrap; }
+.legend { display: flex; align-items: center; gap: 4px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 28px; border-top: 1px solid var(--line); }
+.stat { padding: 22px 0 4px 20px; border-left: 1px solid var(--line); }
+.stat:first-child { padding-left: 0; border-left: 0; }
+.stat b { display: block; font-size: 34px; font-weight: 600; letter-spacing: -.035em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+
+/* activity + languages */
+.split { display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; }
+.bars { display: flex; align-items: flex-end; gap: 8px; height: 150px; border-bottom: 1px solid var(--line); }
+.bar { flex: 1; position: relative; height: 100%; display: flex; align-items: flex-end; cursor: default; }
+.bar span { display: block; width: 100%; border-radius: 4px 4px 0 0; background: #333; height: var(--h);
+  transform-origin: bottom; transition: background .2s, transform .7s var(--ease); }
+.bar.peak span { background: var(--text); }
+.bars:hover .bar span { background: #262626; }
+.bars .bar:hover span { background: var(--text); }
+.bar em { position: absolute; left: 50%; bottom: calc(var(--h) + 6px); transform: translateX(-50%);
+  font: 500 12px var(--mono); font-style: normal; opacity: 0; transition: opacity .15s; }
+.bar.peak em { opacity: 1; }
+.bars:hover .bar em { opacity: 0; }
+.bars .bar:hover em { opacity: 1; }
+.months { display: flex; gap: 8px; margin-top: 8px; }
+.months span { flex: 1; text-align: center; }
+.lang { margin-bottom: 14px; }
+.lang-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 14px; }
+.track { height: 3px; border-radius: 2px; background: #1c1c1c; overflow: hidden; }
+.track span { display: block; height: 100%; width: var(--w); background: #6b6b6b; border-radius: 2px;
+  transform-origin: left; transition: transform .9s var(--ease), background .2s; }
+.lang:first-child .track span, .lang:hover .track span { background: var(--text); }
+
+/* projects */
+.projects { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+.card {
+  --x: 50%; --y: 50%; position: relative; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px 24px; overflow: hidden; transform-style: preserve-3d;
+  transition: transform .25s var(--ease), border-color .25s;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s;
+  background: radial-gradient(280px circle at var(--x) var(--y), rgba(255,255,255,.07), transparent 65%);
+}
+.card:hover { border-color: var(--line-strong); }
+.card:hover::before { opacity: 1; }
+.card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.card h3 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -.015em; }
+.card h3 .arrow { display: inline-block; color: var(--dim); margin-left: 6px; transition: transform .25s var(--ease), color .25s; }
+.card:hover h3 .arrow { transform: translate(3px, -3px); color: var(--text); }
+.card p { color: var(--muted); margin: 10px 0 18px; font-size: 14px; line-height: 1.55; }
+.split-bar { display: flex; gap: 2px; height: 3px; margin: auto 0 10px; }
+.split-bar span { border-radius: 2px; }
+.card-foot { display: flex; justify-content: space-between; gap: 12px; }
+
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+footer a:hover { color: var(--text); }
+
+.js .reveal { opacity: 0; transform: translateY(10px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 720px) {
+  main { padding: 48px 16px 48px; }
+  .panel { padding: 20px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+  .split, .projects { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header class="mono muted">
+    <span id="handle">@cpldxx</span>
+    <a id="gh" href="https://github.com/cpldxx">github ↗</a>
+  </header>
+
+  <section class="reveal">
+    <h1 id="name">Sangwon Ji</h1>
+    <p class="tagline" id="tagline"></p>
+    <div class="tags mono" id="tags"></div>
+  </section>
+
+  <section class="panel reveal" aria-label="Contributions">
+    <div class="panel-head">
+      <h2>Contributions</h2>
+      <span class="mono dim" id="graph-hint">last 12 months · hover a day</span>
+    </div>
+    <div class="graph-scroll"><div class="graph" id="graph"></div></div>
+    <div class="tip" id="tip"></div>
+    <div class="graph-foot mono dim">
+      <span id="graph-caption"></span>
+      <span class="legend">less <span id="legend"></span> more</span>
+    </div>
+    <div class="stats" id="stats"></div>
+  </section>
+
+  <section class="panel reveal split" aria-label="Activity and languages">
+    <div>
+      <div class="panel-head"><h2>Activity</h2><span class="mono dim">per month</span></div>
+      <div class="bars" id="bars"></div>
+      <div class="months mono dim" id="months"></div>
+    </div>
+    <div>
+      <div class="panel-head"><h2>Languages</h2></div>
+      <div id="langs"></div>
+    </div>
+  </section>
+
+  <section class="projects" id="projects" aria-label="Projects"></section>
+
+  <footer class="mono dim">
+    <span id="updated"></span>
+    <a href="https://github.com/cpldxx/cpldxx">built from the GitHub API ↗</a>
+  </footer>
+</main>
+
+<script>
+const RAMP = ["#161616", "#2e2e2e", "#545454", "#9a9a9a", "#f2f2f2"];
+const SHADES = ["#f2f2f2", "#a1a1a1", "#6b6b6b", "#454545"];
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fine = matchMedia("(pointer: fine)").matches;
+const $ = (s) => document.querySelector(s);
+const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fmtDay = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+const fmtShort = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+// page-wide soft spotlight that follows the cursor
+if (fine && !reduced) {
+  addEventListener("pointermove", (e) => {
+    document.body.style.setProperty("--mx", e.clientX + "px");
+    document.body.style.setProperty("--my", e.clientY + "px");
+  }, { passive: true });
+}
+
+fetch("data.json").then((r) => r.json()).then(render);
+
+function render(d) {
+  $("#handle").textContent = "@" + d.profile.login;
+  $("#name").textContent = d.profile.name;
+  $("#tagline").textContent = d.profile.tagline;
+  $("#tags").innerHTML = d.profile.tags.map((t) => `<span>${esc(t)}</span>`).join("");
+  $("#graph-caption").textContent = `${d.total} contributions in the last year`;
+  $("#legend").innerHTML = RAMP.map((c) => `<i style="background:${c}"></i>`).join("");
+  $("#updated").textContent = `updated ${d.updated}`;
+
+  renderGraph(d.weeks);
+  renderStats(d);
+  renderBars(d.months);
+  renderLangs(d.languages);
+  renderProjects(d.projects);
+  reveal();
+}
+
+function renderGraph(weeks) {
+  const graph = $("#graph"), tip = $("#tip");
+  const cells = [];
+  weeks.forEach((wk, wi) => wk.forEach(([date, count, weekday, level]) => {
+    const c = el("div", "cell");
+    c.style.cssText = `--c:${RAMP[level]};grid-column:${wi + 1};grid-row:${weekday + 1}`;
+    c.dataset.l = level;
+    c.dataset.tip = `${count === 0 ? "No" : count} contribution${count === 1 ? "" : "s"} · ${fmtDay(date)}`;
+    graph.appendChild(c);
+    cells.push({ el: c, x: 0, y: 0 });
+  }));
+
+  // start scrolled to the most recent weeks on narrow screens
+  const scroller = graph.parentElement;
+  scroller.scrollLeft = scroller.scrollWidth;
+
+  const measure = () => cells.forEach((c) => {
+    c.x = c.el.offsetLeft + c.el.offsetWidth / 2;
+    c.y = c.el.offsetTop + c.el.offsetHeight / 2;
+  });
+  measure();
+  addEventListener("resize", measure);
+
+  let px = -1e4, py = -1e4, queued = false;
+  const R = 84;
+  const paint = () => {
+    queued = false;
+    for (const c of cells) {
+      const dist = Math.hypot(c.x - px, c.y - py);
+      const p = dist < R ? 1 - dist / R : 0;
+      c.el.style.setProperty("--p", (p * p).toFixed(3));
+    }
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(paint); } };
+
+  if (!fine) $("#graph-hint").textContent = "last 12 months · tap a day";
+  const onPoint = (e) => {
+    const r = graph.getBoundingClientRect();
+    if (!reduced) { px = e.clientX - r.left; py = e.clientY - r.top; queue(); }
+    const cell = e.target.closest(".cell");
+    if (cell) {
+      const panel = tip.offsetParent.getBoundingClientRect(), cr = cell.getBoundingClientRect();
+      tip.textContent = cell.dataset.tip;
+      const half = tip.offsetWidth / 2;
+      const x = Math.min(Math.max(cr.left + cr.width / 2 - panel.left, half + 8), panel.width - half - 8);
+      tip.style.left = x + "px";
+      tip.style.top = cr.top - panel.top + "px";
+      tip.classList.add("on");
+    }
+  };
+  graph.addEventListener("pointermove", onPoint);
+  graph.addEventListener("pointerdown", onPoint);
+  graph.addEventListener("pointerleave", () => { px = py = -1e4; queue(); tip.classList.remove("on"); });
+
+  // ripple the graph in once, column by column
+  if (!reduced) {
+    cells.forEach((c) => {
+      const col = parseInt(c.el.style.gridColumn, 10);
+      c.el.animate([{ opacity: 0, transform: "scale(.3)" }, { opacity: 1, transform: "scale(1)" }],
+        { duration: 450, delay: 200 + col * 14, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" });
+    });
+  }
+}
+
+function renderStats(d) {
+  const top = d.languages[0];
+  const items = [
+    [d.total, "", "contributions"],
+    [d.active, "", "active days"],
+    [d.longest, "d", "longest streak"],
+    [top ? top[0] : "—", "", top ? `top language · ${Math.round(top[1] * 100)}%` : "top language"],
+  ];
+  const wrap = $("#stats");
+  items.forEach(([value, suffix, label]) => {
+    const s = el("div", "stat", `<b>${esc(value)}${suffix}</b><span class="mono muted">${esc(label)}</span>`);
+    if (typeof value === "number") s.dataset.count = value, s.dataset.suffix = suffix;
+    wrap.appendChild(s);
+  });
+}
+
+function countUp(node) {
+  const b = node.querySelector("b"), end = +node.dataset.count, suffix = node.dataset.suffix || "";
+  if (reduced) return;
+  const t0 = performance.now(), dur = 1100;
+  const step = (t) => {
+    const k = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - k, 3);
+    b.textContent = Math.round(end * eased) + suffix;
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function renderBars(months) {
+  const peak = Math.max(...months.map(([, v]) => v), 1);
+  $("#bars").innerHTML = months.map(([m, v]) => {
+    const h = Math.max(2, (v / peak) * 100);
+    const label = new Date(m + "-01T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    return `<div class="bar${v === peak ? " peak" : ""}" style="--h:${h}%" title="${label}: ${v}"><span></span><em>${v}</em></div>`;
+  }).join("");
+  $("#months").innerHTML = months.map(([m]) =>
+    `<span>${new Date(m + "-01T00:00:00").toLocaleDateString("en-US", { month: "short" })[0]}</span>`).join("");
+}
+
+function renderLangs(langs) {
+  $("#langs").innerHTML = langs.map(([name, share]) => `
+    <div class="lang">
+      <div class="lang-row"><span>${esc(name)}</span><span class="mono dim">${(share * 100).toFixed(1)}%</span></div>
+      <div class="track"><span style="--w:${Math.max(share * 100, 1)}%"></span></div>
+    </div>`).join("");
+}
+
+function renderProjects(projects) {
+  const wrap = $("#projects");
+  projects.forEach((p) => {
+    const a = el("a", "card reveal");
+    a.href = p.url;
+    a.innerHTML = `
+      <div class="card-top"><h3>${esc(p.name)}<span class="arrow">↗</span></h3><span class="mono muted">${esc(p.language)}</span></div>
+      <p>${esc(p.description)}</p>
+      <div class="split-bar">${p.languages.map(([, s], i) => `<span style="flex:${s};background:${SHADES[i]}"></span>`).join("")}</div>
+      <div class="card-foot mono dim">
+        <span>${p.languages.slice(0, 2).map(([n, s]) => `${esc(n)} ${Math.round(s * 100)}%`).join(" · ")}</span>
+        <span>updated ${fmtShort(p.pushed)}</span>
+      </div>`;
+    if (fine) {
+      a.addEventListener("pointermove", (e) => {
+        const r = a.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        a.style.setProperty("--x", x + "px");
+        a.style.setProperty("--y", y + "px");
+        if (!reduced) {
+          const rx = ((y / r.height) - .5) * -5, ry = ((x / r.width) - .5) * 5;
+          a.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+        }
+      });
+      a.addEventListener("pointerleave", () => { a.style.transform = ""; });
+    }
+    wrap.appendChild(a);
+  });
+}
+
+function reveal() {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add("in");
+    en.target.querySelectorAll("[data-count]").forEach(countUp);
+    en.target.querySelectorAll(".bar span, .track span").forEach((s, i) => {
+      if (reduced) return;
+      const axis = s.closest(".bar") ? "scaleY" : "scaleX";
+      s.animate([{ transform: `${axis}(0)` }, { transform: `${axis}(1)` }],
+        { duration: 800, delay: i * 40, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" });
+    });
+    io.unobserve(en.target);
+  }), { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach((n, i) => {
+    n.style.transitionDelay = Math.min(i, 3) * 70 + "ms";
+    io.observe(n);
+  });
+}
+</script>
+</body>
+</html>

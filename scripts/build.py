@@ -22,6 +22,7 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "assets"
 HISTORY = ROOT / "data" / "contributions.json"
+SITE = ROOT / "docs"
 
 PROFILE = {
     "login": "cpldxx",
@@ -332,6 +333,36 @@ def render_card(repo: dict) -> str:
     return "\n".join(o) + "\n"
 
 
+def site_data(user: dict, repos: list[dict], pinned: list[dict]) -> dict:
+    """Everything the interactive page in docs/ draws, in one JSON file."""
+    cal = user["contributionsCollection"]["contributionCalendar"]
+    days = [d for w in cal["weeks"] for d in w["contributionDays"]]
+    lvl = levels(days)
+    current, longest = streaks(days)
+    best = max(days, key=lambda d: d["contributionCount"])
+    return {
+        "profile": PROFILE,
+        "updated": datetime.now(timezone.utc).date().isoformat(),
+        "total": cal["totalContributions"],
+        "active": sum(1 for d in days if d["contributionCount"]),
+        "current": current,
+        "longest": longest,
+        "best": {"date": best["date"], "count": best["contributionCount"]},
+        "weeks": [[[d["date"], d["contributionCount"], d["weekday"], lvl[d["date"]]]
+                   for d in w["contributionDays"]] for w in cal["weeks"]],
+        "months": list(monthly(days).items()),
+        "languages": language_shares(repos),
+        "projects": [{
+            "name": r["name"],
+            "description": r["description"],
+            "url": r["url"],
+            "language": r["primaryLanguage"]["name"] if r["primaryLanguage"] else "",
+            "languages": language_shares([r], top=4),
+            "pushed": r["pushedAt"][:10],
+        } for r in pinned],
+    }
+
+
 def readme_projects(repos: list[dict]) -> str:
     links = [f'<a href="{r["url"]}"><img src="./assets/project-{r["name"]}.svg" width="49%" '
              f'alt="{escape(r["name"])}: {escape(r["description"])}"></a>' for r in repos]
@@ -351,6 +382,9 @@ def main() -> None:
     (ASSETS / "stats.svg").write_text(render_stats(user, repos))
     for r in pinned:
         (ASSETS / f'project-{r["name"]}.svg').write_text(render_card(r))
+
+    SITE.mkdir(exist_ok=True)
+    (SITE / "data.json").write_text(json.dumps(site_data(user, repos, pinned), separators=(",", ":")) + "\n")
 
     readme = ROOT / "README.md"
     readme.write_text(re.sub(

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/hero.svg" width="100%" alt="Sangwon Ji. I build AI tools that run on your own machine. Contribution graph and stats.">
+  <a href="https://cpldxx.github.io/cpldxx/"><img src="./assets/hero.svg" width="100%" alt="Sangwon Ji. I build AI tools that run on your own machine. Contribution graph and stats."></a>
 </p>
 
 <p align="center">
@@ -15,4 +15,4 @@
 </p>
 <!-- projects:end -->
 
-<p align="center"><sub>redrawn every night from the GitHub API · <a href="./scripts/build.py">how it's built</a></sub></p>
+<p align="center"><a href="https://cpldxx.github.io/cpldxx/"><b>Open the interactive version ↗</b></a><br><sub>redrawn every night from the GitHub API · <a href="./scripts/build.py">how it's built</a></sub></p>
