@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="./assets/hero.svg" width="100%" alt="Sangwon Ji: my name drawn over a year of GitHub contributions. I build AI tools that run on your own machine.">
+  <img src="./assets/hero.svg" width="100%" alt="Sangwon Ji. I build AI tools that run on your own machine. Contribution graph and stats.">
 </p>
 
 <p align="center">
-  <img src="./assets/stats.svg" width="100%" alt="GitHub stats: contributions, streaks, monthly activity and languages">
+  <img src="./assets/stats.svg" width="100%" alt="Monthly activity and languages">
 </p>
 
 <!-- projects:start -->
