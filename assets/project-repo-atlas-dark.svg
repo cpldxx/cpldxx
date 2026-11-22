@@ -17,8 +17,8 @@
 <text x="6.0" y="62.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">Read a GitHub repo once and explore it as five layers, a</text>
 <text x="6.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">mind map and answers from the code. Runs on your</text>
 <text x="6.0" y="102.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">machine.</text>
-<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="217.0" height="3" rx="1.5" fill="#f0f6fc"/>
-<rect class="growx" style="animation-delay:280ms" x="225.0" y="128" width="197.0" height="3" rx="1.5" fill="#9198a1"/>
+<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="217.3" height="3" rx="1.5" fill="#f0f6fc"/>
+<rect class="growx" style="animation-delay:280ms" x="225.3" y="128" width="196.7" height="3" rx="1.5" fill="#9198a1"/>
 <text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Python 52% · JavaScript 48%</text>
-<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 20</text>
+<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 22</text>
 </svg>

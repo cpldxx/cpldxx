@@ -16,8 +16,9 @@
 <text x="424.0" y="34.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#9198a1" font-weight="400" text-anchor="end">Astro</text>
 <text x="6.0" y="62.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">My portfolio site. Astro, built from plain Markdown and</text>
 <text x="6.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">YAML files.</text>
-<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="390.6" height="3" rx="1.5" fill="#f0f6fc"/>
-<rect class="growx" style="animation-delay:280ms" x="398.6" y="128" width="21.7" height="3" rx="1.5" fill="#9198a1"/>
-<text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Astro 94% · TypeScript 6%</text>
-<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 21</text>
+<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="378.3" height="3" rx="1.5" fill="#f0f6fc"/>
+<rect class="growx" style="animation-delay:280ms" x="386.3" y="128" width="20.9" height="3" rx="1.5" fill="#9198a1"/>
+<rect class="growx" style="animation-delay:360ms" x="409.2" y="128" width="11.3" height="3" rx="1.5" fill="#656c76"/>
+<text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Astro 91% · TypeScript 5%</text>
+<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 22</text>
 </svg>
