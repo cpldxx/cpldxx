@@ -17,9 +17,9 @@
 <text x="6.0" y="62.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">A research lab that never stops: give it a topic, it</text>
 <text x="6.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">researches every night, keeps each fact with its source</text>
 <text x="6.0" y="102.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">in a knowledge graph, and proves what it learned on a…</text>
-<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="295.1" height="3" rx="1.5" fill="#f0f6fc"/>
-<rect class="growx" style="animation-delay:280ms" x="303.1" y="128" width="110.7" height="3" rx="1.5" fill="#9198a1"/>
-<rect class="growx" style="animation-delay:360ms" x="415.7" y="128" width="6.3" height="3" rx="1.5" fill="#656c76"/>
+<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="295.9" height="3" rx="1.5" fill="#f0f6fc"/>
+<rect class="growx" style="animation-delay:280ms" x="303.9" y="128" width="109.9" height="3" rx="1.5" fill="#9198a1"/>
+<rect class="growx" style="animation-delay:360ms" x="415.8" y="128" width="6.2" height="3" rx="1.5" fill="#656c76"/>
 <text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Python 71% · TypeScript 27%</text>
-<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 25</text>
+<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 26</text>
 </svg>
