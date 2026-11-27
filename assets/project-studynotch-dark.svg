@@ -17,8 +17,8 @@
 <text x="6.0" y="62.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">A study helper that lives in your Mac's notch. Right-</text>
 <text x="6.0" y="82.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">click a sentence and the AI you already use answers from</text>
 <text x="6.0" y="102.0" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9198a1" font-weight="400" text-anchor="start">your course's PDFs.</text>
-<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="360.2" height="3" rx="1.5" fill="#f0f6fc"/>
-<rect class="growx" style="animation-delay:280ms" x="368.2" y="128" width="53.0" height="3" rx="1.5" fill="#9198a1"/>
+<rect class="growx" style="animation-delay:200ms" x="6.0" y="128" width="360.9" height="3" rx="1.5" fill="#f0f6fc"/>
+<rect class="growx" style="animation-delay:280ms" x="368.9" y="128" width="52.3" height="3" rx="1.5" fill="#9198a1"/>
 <text x="6.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="start">Swift 87% · JavaScript 13%</text>
-<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 26</text>
+<text x="424.0" y="148.0" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="12" fill="#656c76" font-weight="400" text-anchor="end">updated Nov 27</text>
 </svg>
